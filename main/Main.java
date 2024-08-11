@@ -3,18 +3,23 @@ package main;
 import model.FamilyTree;
 import model.Person;
 import model.PersonParentChildChecker;
+import view.FamilyTreeConsoleView;
 
 import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
-        // Создание проверщика отношений "Родитель-Ребенок"
+        // Модель
         PersonParentChildChecker checker = new PersonParentChildChecker();
-
-        // Создание генеалогического древа с проверщиком
         FamilyTree<Person> familyTree = new FamilyTree<>(checker);
 
-        // Создание людей
+        // Представление
+        FamilyTreeConsoleView view = new FamilyTreeConsoleView();
+
+        // Презентер
+        FamilyTreePresenter presenter = new FamilyTreePresenter(familyTree, view);
+
+        // Добавление людей через презентер
         Person rustam = new Person("Рустам", LocalDate.of(1962, 4, 4), null, null, null);
         Person boyjon = new Person("Бойжон", LocalDate.of(1940, 1, 1), null, null, null);
         Person mukaddas = new Person("Мукаддас", LocalDate.of(1962, 5, 5), null, boyjon, null);
@@ -22,37 +27,21 @@ public class Main {
         Person sevora = new Person("Севара", LocalDate.of(1991, 2, 2), null, null, null);
         Person samiy = new Person("Самий", LocalDate.of(2015, 12, 3), null, sevora, doniyor);
 
-        // Добавление людей в генеалогическое древо
-        familyTree.addMember(rustam);
-        familyTree.addMember(boyjon);
-        familyTree.addMember(mukaddas);
-        familyTree.addMember(doniyor);
-        familyTree.addMember(sevora);
-        familyTree.addMember(samiy);
+        presenter.addPerson(rustam);
+        presenter.addPerson(boyjon);
+        presenter.addPerson(mukaddas);
+        presenter.addPerson(doniyor);
+        presenter.addPerson(sevora);
+        presenter.addPerson(samiy);
 
-        // Вывод информации о всех людях в генеалогическом древе
-        System.out.println("Список всех людей в генеалогическом древе:");
-        familyTree.printFamilyTree();
+        // Отображение генеалогического древа
+        presenter.displayFamilyTree();
 
-        // Получение и вывод всех детей выбранного человека
-        System.out.println("Дети Дониёра:");
-        familyTree.getChildren(doniyor).forEach(child -> System.out.println(" - " + child.getName()));
+        // Отображение детей
+        presenter.displayChildren(doniyor);
 
-        // Вывод всей информации о человеке
-        System.out.println("\nИнформация о Рустаме:");
-        System.out.println(rustam);
-
-        System.out.println("\nИнформация о Севаре:");
-        System.out.println(sevora);
-
-        // Сортировка по имени
-        familyTree.sortByName();
-        System.out.println("\nОтсортировано по имени:");
-        familyTree.printFamilyTree();
-
-        // Сортировка по дате рождения
-        familyTree.sortByBirthDate();
-        System.out.println("\nОтсортировано по дате рождения:");
-        familyTree.printFamilyTree();
+        // Сортировка и отображение
+        presenter.sortByName();
+        presenter.sortByBirthDate();
     }
 }
