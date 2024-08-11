@@ -56,11 +56,13 @@ public class FamilyTree<T> implements Serializable, Iterable<T> {
         return new TreeIterable<>(members);
     }
 
-    public void sortByName(Comparator<T> comparator) {
-        members.sort(comparator);
+    @SuppressWarnings("unchecked")
+    public void sortByName() {
+        members.sort((Comparator<? super T>) Comparator.comparing(Person::getName));
     }
 
-    public void sortByBirthDate(Comparator<T> comparator) {
-        members.sort(comparator);
+    @SuppressWarnings("unchecked")
+    public void sortByBirthDate() {
+        members.sort((Comparator<? super T>) Comparator.comparing(Person::getBirthDate));
     }
 }

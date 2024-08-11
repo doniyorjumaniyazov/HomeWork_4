@@ -5,7 +5,6 @@ import model.Person;
 import model.PersonParentChildChecker;
 
 import java.time.LocalDate;
-import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
@@ -47,12 +46,12 @@ public class Main {
         System.out.println(sevora);
 
         // Сортировка по имени
-        familyTree.sortByName(Comparator.comparing(Person::getName));
+        familyTree.sortByName();
         System.out.println("\nОтсортировано по имени:");
         familyTree.printFamilyTree();
 
         // Сортировка по дате рождения
-        familyTree.sortByBirthDate(Comparator.comparing(Person::getBirthDate));
+        familyTree.sortByBirthDate();
         System.out.println("\nОтсортировано по дате рождения:");
         familyTree.printFamilyTree();
     }
